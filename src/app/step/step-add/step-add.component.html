@@ -1,0 +1,16 @@
+<h4>Step</h4>
+<form [formGroup]="addStepForm" (ngSubmit)="onSubmit()" class="form-group">
+  <label for="name">Name</label>
+  <input type="text" formControlName="name" id="name" class="form-control" />
+  <label for="age">Age</label>
+  <input type="text" formControlName="age" id="age" class="form-control" />
+  <label for="type">Type</label>
+  <select id="type" formControlName="type" class="form-control">
+    <option *ngFor="let option of types" [ngValue]="option.name">
+      {{ option.name }}
+    </option>
+  </select>
+  <button type="submit" [disabled]="!addStepForm.valid">Submit</button>
+</form>
+
+<button (click)="loadSteps()">Load steps</button>
