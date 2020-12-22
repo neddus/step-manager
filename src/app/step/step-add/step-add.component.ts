@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
+import { mergeMap, switchMap } from 'rxjs/operators';
 import { Step } from '../models/step';
 import { addStep, loadSteps } from '../store/action/step.actions';
 import { StepState } from '../store/reducer/step.reducer';
@@ -36,6 +37,19 @@ export class StepAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let list = [1, 2, 3, 4, 5];
+    let observableList$ = from(list);
+
+    let aa = observableList$
+      .pipe(mergeMap((x: number) => of((a: number) => a * 2)))
+      .subscribe(console.log);
+
+    console.log(aa);
+    const switched = of(1, 2, 3).pipe(
+      switchMap((x: number) => of(x, x ** 2, x ** 3))
+    );
+
+    switched.subscribe((x) => console.log(x));
     this.addStep({
       name: 'Step',
       type: 'Sister',

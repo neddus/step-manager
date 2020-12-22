@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { selectSteps } from '../store/selector/step.selectors';
 import { StepState } from '../store/reducer/step.reducer';
 import { removeStep, selectStep } from '../store/action/step.actions';
-import { tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-step-view',
@@ -14,12 +14,16 @@ import { tap } from 'rxjs/operators';
 })
 export class StepViewComponent implements OnInit {
   steps$: Observable<Step[]>;
+  infoFromSteps$: Observable<number>;
   constructor(private store: Store<StepState>) {
     this.steps$ = this.store.pipe(select(selectSteps));
+    this.infoFromSteps$ = this.store.pipe(
+      select(selectSteps),
+      take(1),
+      map((ss) => ss[0].age)
+    );
   }
-  ngOnInit(): void {
-    this.steps$.pipe(tap(console.log)).subscribe();
-  }
+  ngOnInit(): void {}
 
   // todo to service
   removeStep(step: Step): void {

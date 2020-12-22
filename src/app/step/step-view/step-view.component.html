@@ -1,4 +1,5 @@
 <h4>Step List</h4>
+info from steps array: {{ infoFromSteps$ | async }}
 <div *ngFor="let step of steps$ | async">
   {{ step.name }} {{ step.age }} {{ step.type }}
   <button (click)="removeStep(step)">Remove</button>
